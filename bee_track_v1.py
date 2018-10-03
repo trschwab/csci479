@@ -26,7 +26,7 @@ def runTest(whichBee = "testBee"):
 
     locationList = []
 
-    camera = cv2.VideoCapture("bees_a.mp4")
+    camera = cv2.VideoCapture("bees_c_cut_rev.mp4")
     startTime = time.time()     #start the timer to track experiment
 
     #camera = cv2.VideoCapture(1) #this is webcam
@@ -40,7 +40,7 @@ def runTest(whichBee = "testBee"):
     width = 800
 
     sol_b_x = 100
-    sol_b_y = 300
+    sol_b_y = 200
 
     distance_sol_a = 0
     distance_sol_b = 0
@@ -131,11 +131,12 @@ def runTest(whichBee = "testBee"):
             outputList += [whichBee]
             outputList += [endResult]
             outputList += [endTime]
+            print("heyyy")
 
             #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
-            camera.release()
-            cv2.destroyAllWindows()
-            return (outputList, locationList)
+            #camera.release()
+            #cv2.destroyAllWindows()
+            #return (outputList, locationList)
 
         else:
             
@@ -156,4 +157,4 @@ def runTest(whichBee = "testBee"):
 
 
 
-runTest()
+print(runTest())
