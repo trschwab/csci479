@@ -6,11 +6,18 @@ import imutils
 import math
 import cv2
 import numpy as np
+import os
 
 #below imports are for keep track of how long experiment takes and for threading to make video run smooth
 #video running smooth now without Threading
 import threading
 import time
+
+my_dir = "videos"
+my_file = "bees_c_cut_rev.mp4"
+video_path = os.path.join(my_dir, my_file)      #gets path of video to import
+
+cap_diam = 20
 
 def runTest(whichBee = "testBee"):
 
@@ -26,7 +33,9 @@ def runTest(whichBee = "testBee"):
 
     locationList = []
 
-    camera = cv2.VideoCapture("bees_c_cut_rev.mp4")
+
+
+    camera = cv2.VideoCapture(video_path)
     startTime = time.time()     #start the timer to track experiment
 
     #camera = cv2.VideoCapture(1) #this is webcam
@@ -40,7 +49,7 @@ def runTest(whichBee = "testBee"):
     width = 800
 
     sol_b_x = 100
-    sol_b_y = 200
+    sol_b_y = 230
 
     distance_sol_a = 0
     distance_sol_b = 0
@@ -109,38 +118,42 @@ def runTest(whichBee = "testBee"):
             cv2.circle(frame, rectagleCenterPont, 1, (0, 0, 255), 5)
 
 
+            if distance_sol_a < cap_diam:     #if bee is on sol_a cap, end experiment
+                endtime = time.time()
+
+                endResult = "A"
+
+                running = False
+
+            if distance_sol_b < cap_diam:
+                endtime = time.time()
+
+                endResult = "B"
+
+                running = False
+
+            if running == False:
+                outputList += [whichBee]
+                outputList += [endResult]
+                endtime = endtime - startTime
+                outputList += [("%.2f" % endtime)]
+
+
+                #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
+                camera.release()
+                cv2.destroyAllWindows()
+                print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
+
+            else:
+
+                locationList += [rectagleCenterPont]
+
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
 
-        if distance_sol_a < 30:     #if bee is on sol_a cap, end experiment
-            endTime = time.time()
 
-            endResult = "A"
-
-            running = False
-
-        if distance_sol_b < 30:
-            endTime = time.time()
-
-            endResult = "B"
-
-            running = False
-
-        if running == False:
-            outputList += [whichBee]
-            outputList += [endResult]
-            outputList += [endTime]
-            print("heyyy")
-
-            #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
-            #camera.release()
-            #cv2.destroyAllWindows()
-            #return (outputList, locationList)
-
-        else:
-            
-            locationList += [rectagleCenterPont]
 
         #Functions to display text on screen
         cv2.putText(frame, "Distance to Solution A: {}".format(str(distance_sol_a)), (10, 40),
@@ -157,4 +170,4 @@ def runTest(whichBee = "testBee"):
 
 
 
-print(runTest())
+runTest()
