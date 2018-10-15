@@ -7,6 +7,7 @@ import math
 import cv2
 import numpy as np
 import os
+import csv
 
 #below imports are for keep track of how long experiment takes and for threading to make video run smooth
 #video running smooth now without Threading
@@ -31,7 +32,7 @@ def runTest(whichBee = "testBee"):
 
     outputList = []
 
-    locationList = []
+    locationList = [whichBee]
 
 
 
@@ -142,7 +143,19 @@ def runTest(whichBee = "testBee"):
                 #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
                 camera.release()
                 cv2.destroyAllWindows()
-                print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
+                #print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
+                #print(len(locationList)/endtime)
+
+                with open('results.csv','a') as fd:
+                    wr = csv.writer(fd, dialect='excel')
+                    wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
+                fd.close()
+
+                with open('locations.csv','a') as fd:
+                    wr = csv.writer(fd, dialect='excel')
+
+                    wr.writerow(locationList)   #first item is whichBee ran the test, rest of columns are location tuples
+                fd.close()
 
             else:
 
