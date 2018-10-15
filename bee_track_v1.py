@@ -20,6 +20,51 @@ video_path = os.path.join(my_dir, my_file)      #gets path of video to import
 
 cap_diam = 20
 
+#This function only needs to be run once on the first frame. 
+def detect_caps(frame):
+    #input a frame and output the positions of two caps. 
+    
+    #detect yellow cap
+    circle_frame_a = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    (h, s, v) = cv2.split(circle_frame_a)
+    s = s*1
+    s = np.clip(s,0,255)
+    imghsv = cv2.merge([h,s,v])
+    imghsv = cv2.cvtColor(imghsv, cv2.COLOR_BGR2HSV).astype("float32")
+    circle_frame_a = cv2.cvtColor(imghsv.astype("uint8"), cv2.COLOR_HSV2BGR)
+    circle_frame_a = cv2.cvtColor(circle_frame_a, cv2.COLOR_BGR2GRAY)
+    circle_frame_a = cv2.threshold(circle_frame_a, 140, 255, cv2.THRESH_BINARY)[1]
+    circles_a = cv2.HoughCircles(circle_frame_a, cv2.HOUGH_GRADIENT, 22, minDist=1, maxRadius=50)
+
+    #detecct purple cap
+    circle_frame_b = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    circle_frame_b = cv2.threshold(circle_frame_b, 80, 255, cv2.THRESH_BINARY)[1]
+    circle_frame_b = cv2.erode(circle_frame_b, None, iterations=2)
+    #kernel = np.ones((5,5),np.uint8)
+    #circle_frame_b = cv2.morphologyEx(circle_frame_b, cv2.MORPH_OPEN,kernel)
+    #circle_frame_b = cv2.morphologyEx(circle_frame_b, cv2.MORPH_OPEN,kernel)
+    #circle_frame_b = cv2.morphologyEx(circle_frame_b, cv2.MORPH_OPEN,kernel)
+    circles_b = cv2.HoughCircles(circle_frame_b, cv2.HOUGH_GRADIENT, 22, minDist=1, maxRadius=50)
+    
+
+    #np.concatenate((a, b))
+    #for c in circles_b:
+    #for c in np.concatenate((circles_b[:,0,:], circles_a[:,0,:]),axis = 0):
+    #np.array(np.append(circles_a,circles_b,axis=0)):
+        #print(c)
+        #if cv2.contourArea(c) < 100:
+            #continue
+        # circle_x = c[0]
+        # circle_y = c[1]
+        # circle_rad = c[2]
+        # cv2.circle(frame, (circle_x, circle_y), 1, (0, 0, 255), 30) #Solution A
+        #cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 255, 0), 30) #Solution B
+
+    caps = [circles_a[:,0,:],circles_b[:,0,:]]
+    #caps = [circles_b[:,0,:]]
+    return caps
+
 def runTest(whichBee = "testBee"):
 
     #whichBee = "testBee"
@@ -34,6 +79,8 @@ def runTest(whichBee = "testBee"):
 
     locationList = [whichBee]
 
+    caps = [] #structure that will hold cap positions
+
 
 
     camera = cv2.VideoCapture(video_path)
@@ -42,13 +89,13 @@ def runTest(whichBee = "testBee"):
     #camera = cv2.VideoCapture(1) #this is webcam
 
     firstFrame = None
-
-    #Manually enter coords for solutions
-    sol_a_x = 100
-    sol_a_y = 100
-
     width = 800
 
+    #Manually enter coords for solutions
+    num_caps = 2 # number of caps in experiment
+    cap_radius = 20
+    sol_a_x = 100
+    sol_a_y = 100
     sol_b_x = 100
     sol_b_y = 230
 
@@ -77,6 +124,24 @@ def runTest(whichBee = "testBee"):
         if firstFrame is None:
             firstFrame = gray
             continue
+
+        ##### BOTTLE CAP DETECTION BEGINNING----- COMMENT OUT TO REMOVE AUTOMATIC CAP DETECTION
+        if(len(caps) < num_caps):
+            caps = detect_caps(frame)
+            #print(caps)
+            #print(len(caps))
+
+        if(len(caps) == num_caps):
+            print(caps[0])
+            sol_a_x = caps[0][0][0]
+            sol_a_y = caps[0][0][1]
+
+            sol_b_x = caps[1][0][0]
+            sol_b_y = caps[1][0][1]
+            cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), cap_radius)
+            cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 0, 255), cap_radius) #Solution A
+
+        ##### BOTTLE CAP DETECTION END----- COMMENT OUT TO REMOVE AUTOMATIC CAP DETECTION
 
         # compute the absolute difference between the current frame and
         # first frame
