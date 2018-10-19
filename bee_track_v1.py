@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 import os
 import csv
+import datetime
 
 #below imports are for keep track of how long experiment takes and for threading to make video run smooth
 #video running smooth now without Threading
@@ -18,7 +19,7 @@ my_dir = "videos"
 my_file = "bees_c_cut_rev.mp4"
 video_path = os.path.join(my_dir, my_file)      #gets path of video to import
 
-cap_diam = 20
+EXPERIMENT_ID = 1
 
 #This function only needs to be run once on the first frame. 
 def detect_caps(frame):
@@ -65,27 +66,65 @@ def detect_caps(frame):
     #caps = [circles_b[:,0,:]]
     return caps
 
+def end_experiment(outputList, locationList, whichBee, endResult,  startTime, endTime):
+    outputList += [EXPERIMENT_ID]
+    outputList += [whichBee]
+    outputList += [endResult]
+    totalTime = endTime - startTime
+    outputList += [("%.2f" % totalTime)]
+
+    
+    now = datetime.datetime.now()
+    outputList += [now.strftime("%Y-%m-%d %H:%M")]
+
+    #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
+ 
+    #print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
+    #print(len(locationList)/endtime)
+
+    if(os.path.isfile("results.csv")):
+        with open('results.csv','a') as fd:
+            wr = csv.writer(fd, dialect='excel')
+            #for i in outputList:
+                #wr.writerow(outputList) 
+
+            wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
+        fd.close()
+
+    else:
+        print("here")
+        with open('results.csv','w') as fd:
+            wr = csv.writer(fd, dialect='excel')
+            #for i in outputList:
+                #wr.writerow(outputList) 
+
+            wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"]) 
+            wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
+        fd.close()
+
+    with open('locations.csv','a') as fd:
+        wr = csv.writer(fd, dialect='excel')
+
+        #for i in locationList:
+            #wr.writerow(i) 
+
+        wr.writerow(locationList)   #first item is whichBee ran the test, rest of columns are location tuples
+    fd.close()
+
+
 def runTest(whichBee = "testBee"):
 
     #whichBee = "testBee"
 
-    resultList = ["A", "B", "NO CHOICE"]  #will use for enumeration of choices
-
-    endResult = "NO CHOICE"
-
     running = True
-
+    resultList = ["A", "B", "NO CHOICE"]  #will use for enumeration of choices
+    endResult = "NO CHOICE"
     outputList = []
-
     locationList = [whichBee]
 
     caps = [] #structure that will hold cap positions
 
-
-
-    camera = cv2.VideoCapture(video_path)
-    startTime = time.time()     #start the timer to track experiment
-
+    camera = cv2.VideoCapture(video_path)    
     #camera = cv2.VideoCapture(1) #this is webcam
 
     firstFrame = None
@@ -93,7 +132,8 @@ def runTest(whichBee = "testBee"):
 
     #Manually enter coords for solutions
     num_caps = 2 # number of caps in experiment
-    cap_radius = 20
+    cap_radius = 30
+
     sol_a_x = 100
     sol_a_y = 100
     sol_b_x = 100
@@ -102,6 +142,7 @@ def runTest(whichBee = "testBee"):
     distance_sol_a = 0
     distance_sol_b = 0
 
+    startTime = time.time()     #start the timer to track experiment
     # loop over the frames of the video
     while True:
 
@@ -116,7 +157,7 @@ def runTest(whichBee = "testBee"):
             break
 
         # resize the frame, convert it to grayscale, and blur it
-        frame = imutils.resize(frame, width=width)
+        #frame = imutils.resize(frame, width=width)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
@@ -132,14 +173,14 @@ def runTest(whichBee = "testBee"):
             #print(len(caps))
 
         if(len(caps) == num_caps):
-            print(caps[0])
+            #print(caps[0])
             sol_a_x = caps[0][0][0]
             sol_a_y = caps[0][0][1]
 
             sol_b_x = caps[1][0][0]
             sol_b_y = caps[1][0][1]
-            cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), cap_radius)
-            cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 0, 255), cap_radius) #Solution A
+            cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 255, 255), cap_radius)
+            cv2.circle(frame, (sol_b_x, sol_b_y), 1, (130,0,75), cap_radius) #Solution A
 
         ##### BOTTLE CAP DETECTION END----- COMMENT OUT TO REMOVE AUTOMATIC CAP DETECTION
 
@@ -154,6 +195,7 @@ def runTest(whichBee = "testBee"):
         _, cnts, _ = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         # loop over the contours
+        # remember to implement a case for when there are no cntrs. WHen the bee is not on camera
         for c in cnts:
 
             # if the contour is too small, ignore it
@@ -165,72 +207,44 @@ def runTest(whichBee = "testBee"):
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-            #DRAW CIRCLES FOR WHERE THE SOLUTIONS ARE
-            cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), 30) #Solution A
-            cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 255, 0), 30) #Solution B
-
             #center of rectangle. Rectangle
             rectagleCenterPont = ((x + x + w) // 2, (y + y + h) // 2)
-
-
-            #draw lines from bee to solutions
-            cv2.line(frame, (sol_a_x, sol_a_y), rectagleCenterPont, (250, 0, 1), 2) #distance line A
-            cv2.line(frame, (sol_b_x, sol_b_y), rectagleCenterPont, (0, 250, 1), 2) #distance line B
+            locationList += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
 
             #calculate distance from bee to
             distance_sol_a = np.sqrt((sol_a_x - rectagleCenterPont[0])**2 + (sol_a_y - rectagleCenterPont[1])**2)
             distance_sol_b = np.sqrt((sol_b_x - rectagleCenterPont[0])**2 + (sol_b_y - rectagleCenterPont[1])**2)
 
+
+            if distance_sol_a < cap_radius:     #if bee is on sol_a cap, end experiment
+                endtime = time.time()
+                end_experiment(outputList, locationList, whichBee, "Purple", startTime, endtime)
+                running = False
+                break
+
+            if distance_sol_b < cap_radius:
+                endtime = time.time()
+                end_experiment(outputList, locationList, whichBee, "Yellow", startTime, endtime)
+                running = False
+                break
+
+            #DRAW CIRCLES FOR WHERE THE SOLUTIONS ARE
+            #cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), 30) #Solution A
+            #cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 255, 0), 30) #Solution B
+
+            #draw lines from bee to solutions
+            cv2.line(frame, (sol_a_x, sol_a_y), rectagleCenterPont, (0, 255, 255), 2) #distance line A
+            cv2.line(frame, (sol_b_x, sol_b_y), rectagleCenterPont, (130,0,75), 2) #distance line B
+
+            #draw small circle where bee is
             cv2.circle(frame, rectagleCenterPont, 1, (0, 0, 255), 5)
 
 
-            if distance_sol_a < cap_diam:     #if bee is on sol_a cap, end experiment
-                endtime = time.time()
-
-                endResult = "A"
-
-                running = False
-
-            if distance_sol_b < cap_diam:
-                endtime = time.time()
-
-                endResult = "B"
-
-                running = False
-
-            if running == False:
-                outputList += [whichBee]
-                outputList += [endResult]
-                endtime = endtime - startTime
-                outputList += [("%.2f" % endtime)]
-
-
-                #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
-                camera.release()
-                cv2.destroyAllWindows()
-                #print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
-                #print(len(locationList)/endtime)
-
-                with open('results.csv','a') as fd:
-                    wr = csv.writer(fd, dialect='excel')
-                    wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
-                fd.close()
-
-                with open('locations.csv','a') as fd:
-                    wr = csv.writer(fd, dialect='excel')
-
-                    wr.writerow(locationList)   #first item is whichBee ran the test, rest of columns are location tuples
-                fd.close()
-
-            else:
-
-                locationList += [rectagleCenterPont]
-
-
+        #Press q to exit early.
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            endtime = time.time()
+            end_experiment(outputList, locationList, whichBee, "NO RESULT - QUIT", startTime, endtime)
             break
-
-
 
 
         #Functions to display text on screen
@@ -245,7 +259,15 @@ def runTest(whichBee = "testBee"):
 
         cv2.imshow("Security Feed", frame)
 
+    #Quit camera displays
+    endtime = time.time()
+    end_experiment(outputList, locationList, whichBee, "NO RESULT - QUIT", startTime, endtime)
 
+    camera.release()
+    cv2.destroyAllWindows()
 
-
-runTest()
+if __name__ == '__main__':
+    import sys
+    
+    EXPERIMENT_ID = 1
+    runTest()

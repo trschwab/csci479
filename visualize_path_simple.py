@@ -22,7 +22,7 @@ else:
 
 
 	
-
+ 
 
 #fig2 = plt.figure(figsize=(7,7))
 fig2 = plt.figure(g)
