@@ -62,16 +62,25 @@ print("Generating data, this takes a few seconds...")
 ## In this case we can get a huge performance boost by pre-rendering the spot
 ## image and just drawing that image repeatedly.
 
-n = 2
-s1 = pg.ScatterPlotItem(size=10, pen=pg.mkPen(None), brush=pg.mkBrush(128, 255, 255, 120))
+n = 300
+df = [[1,2],[2,3]]
+s1 = pg.ScatterPlotItem(pos=df,size=10, pen=pg.mkPen(None), brush=pg.mkBrush(128, 255, 255, 120))
 pos = np.random.normal(size=(2,n), scale=1e-5)
+
+
+#s1 = pg.ScatterPlotItem(size=10, pen=pg.mkPen(None), brush=pg.mkBrush(255, 255, 255, 120))
+pos = np.random.normal(size=(2,n), scale=1e-5)
+spots = [{'pos': pos[:,i], 'data': 1} for i in range(n)] + [{'pos': [0,0], 'data': 1}]
+print(spots)
 #spots = [{'pos': pos[:,i], 'data': 1} for i in range(n)] + [{'pos': [0,0], 'data': 1}]
 #for evens in range(0, len(plotPoints), 2):
 #    s1.addPoints(form(plotPoints[evens], plotPoints[evens + 1])
 #    w1.addItem(s1)
-for many in range(0, len(pointsForm)):
-    s1.addPoints(form(pointsForm[many][0], pointsForm[many][1]))
+#for many in range(0, len(pointsForm)):
+#    s1.addPoints(form(pointsForm[many][0], pointsForm[many][1]))
 #s1.addPoints(formList(array(plotPoints[0])))
+
+
 w1.addItem(s1)
 
 
