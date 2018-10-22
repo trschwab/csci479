@@ -14,9 +14,9 @@ import datetime
 #video running smooth now without Threading
 import threading
 import time
-from pymouse import PyMouse
+#from pymouse import PyMouse
 
-mouse = PyMouse()
+#mouse = PyMouse()
 
 my_dir = "videos"
 my_file = "bees_c_cut_rev.mp4"
@@ -93,7 +93,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
         fd.close()
 
     else:
-        print("here")
+        #print("here")
         with open('results.csv','w') as fd:
             wr = csv.writer(fd, dialect='excel')
             wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"]) 
@@ -107,7 +107,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
         fd.close()
 
     else:
-        print("here")
+        #print("here")
         with open('locations.csv','w') as fd:
             wr = csv.writer(fd, dialect='excel')
             wr.writerow(locationList)             #whichBee, which Cap it picked, how long it took
@@ -226,8 +226,8 @@ def runTest(whichBee = "testBee"):
             #rectagleCenterPont = ((x + x + w) // 2, (y + y + h) // 2)
             rectagleCenterPont = (int(mouse.position()[0]),int(mouse.position()[1]))
             #locationList += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
-            locationList += [(mouse.position())]
-            print(locationList)
+            #locationList += [(mouse.position())]
+            #print(locationList)
             #calculate distance from bee to
             distance_sol_a = np.sqrt((sol_a_x - rectagleCenterPont[0])**2 + (sol_a_y - rectagleCenterPont[1])**2)
             distance_sol_b = np.sqrt((sol_b_x - rectagleCenterPont[0])**2 + (sol_b_y - rectagleCenterPont[1])**2)
@@ -272,13 +272,13 @@ def runTest(whichBee = "testBee"):
                 near_cap_time = time.time() - start_cap_time 
                 print(near_cap_time)
                 if(near_cap_time > NEAR_CAP_TIME):
-                    print("wow")
+                    #print("wow")
                     print(near_cap_time)
                     #Finish experiment
                     endTime = time.time()
                     #end_experiment(outputList, locationList, whichBee, near_cap, startTime, endTime)
                     running = False
-            print("in main loop")
+            #print("in main loop")
             #DRAW CIRCLES FOR WHERE THE SOLUTIONS ARE
             #cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), 30) #Solution A
             #cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 255, 0), 30) #Solution B
