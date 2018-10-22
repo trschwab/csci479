@@ -223,9 +223,9 @@ def runTest(whichBee = "testBee"):
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
             #center of rectangle/BEE. Rectangle
-            #rectagleCenterPont = ((x + x + w) // 2, (y + y + h) // 2)
-            rectagleCenterPont = (int(mouse.position()[0]),int(mouse.position()[1]))
-            #locationList += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
+            rectagleCenterPont = ((x + x + w) // 2, (y + y + h) // 2)
+            #rectagleCenterPont = (int(mouse.position()[0]),int(mouse.position()[1]))
+            locationList += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
             #locationList += [(mouse.position())]
             #print(locationList)
             #calculate distance from bee to
