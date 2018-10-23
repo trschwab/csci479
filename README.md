@@ -3,7 +3,5 @@
 # Tracker code 
 ## Press q to exit early
 ## Set parameters: 
-       * Bullet list
-              * Nested bullet
-                  * Sub-nested bullet etc
-          * Bullet list item 2
+-NEAR_CAP_TIME = 2   This is the time that a bee needs to stay at cap for it to count as an experiment end.
+
