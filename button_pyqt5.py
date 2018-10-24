@@ -20,6 +20,16 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
+        #
+        # MY CODE
+        #
+
+
+
+        #
+        #
+        #
+
         run_button = QPushButton('Run Trial', self)
         run_button.setToolTip('Click here to start image processing for a trial')
         run_button.move(150,210)
