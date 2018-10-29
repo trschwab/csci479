@@ -6,8 +6,11 @@ import sys
 
 
 def visualize(file_name, plot_type, index):
+	print(plot_type)
+	print(index)
+	index = int(index)
 	arena_size = (800,800)
-	 
+
 
 	#fig2 = plt.figure(figsize=(7,7))
 
@@ -25,12 +28,11 @@ def visualize(file_name, plot_type, index):
 	        (0, 0),
 	        arena_size[0],
 	        arena_size[0],
-	        fill=False     
-	     ) ) 
+	        fill=False
+	     ) )
 
-	plt.xlim(-10, arena_size[0]+10)  
-	plt.ylim(-10, arena_size[0]+10) 
-
+	plt.xlim(-10, arena_size[0]+10)
+	plt.ylim(-10, arena_size[0]+10)
 
 	#Get data
 	f = open(file_name)
@@ -47,7 +49,7 @@ def visualize(file_name, plot_type, index):
 			    data = last_row[ind][1:-1].split(",")
 			    df_x.append(float(data[0]))
 			    df_y.append(float(data[1]))
-		
+
 
 	if(plot_type=="index"):
 		last_row = list(csv.reader(f))[index]
@@ -56,7 +58,7 @@ def visualize(file_name, plot_type, index):
 			    data = last_row[ind][1:-1].split(",")
 			    df_x.append(float(data[0]))
 			    df_y.append(float(data[1]))
-		
+
 
 	#plt.figure(figsize=(10,10))
 	if(plot_type=="all"):
@@ -82,7 +84,7 @@ def visualize(file_name, plot_type, index):
 
 			#t=np.linspace(0,len(df_x),len(df_x))
 			#plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("viridis"))
-				
+
 			#plt.plot(df_x, df_y)
 		#plt.colorbar()
 		plt.show()
@@ -95,20 +97,20 @@ def visualize(file_name, plot_type, index):
 		plt.show()
 
 # main
-if(len(sys.argv) < 2):
-	print("Please specify file name")
-	exit()
-elif(len(sys.argv) < 3):
-	file_name= sys.argv[1] 
-	plot_type= "latest"
-else:
-	file_name= sys.argv[1] 
-	plot_type= str.lower(sys.argv[2])
-	if(len(sys.argv) < 4):
-		if(plot_type == "index"):
-			print("Please specify index of path to plot")
-			exit()
-	else:
-		index = int(sys.argv[3]) 
+# if(len(sys.argv) < 2):
+# 	print("Please specify file name")
+# 	exit()
+# elif(len(sys.argv) < 3):
+# 	file_name= sys.argv[1]
+# 	plot_type= "latest"
+# else:
+# 	file_name= sys.argv[1]
+# 	plot_type= str.lower(sys.argv[2])
+# 	if(len(sys.argv) < 4):
+# 		if(plot_type == "index"):
+# 			print("Please specify index of path to plot")
+# 			exit()
+# 	else:
+# 		index = int(sys.argv[3])
 
-visualize(file_name, plot_type, index)
+#visualize(file_name, plot_type, index)
