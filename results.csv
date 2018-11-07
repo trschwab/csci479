@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Experiment ID,Bee ID,Cap,Trail Time,Date/Time
 1,testBee,NO RESULT - QUIT,3.96,2018-10-17 19:50
 1,testBee,NO RESULT - QUIT,3.47,2018-10-17 19:52
@@ -19,3 +20,7 @@ Experiment ID,Bee ID,Cap,Trail Time,Date/Time
 1,1,NO RESULT - QUIT,8.92,2018-10-22 15:33
 1,1,NO RESULT - QUIT,7.61,2018-10-22 15:35
 1,1,NO RESULT - QUIT,8.01,2018-10-22 15:36
+=======
+Experiment ID,Bee ID,Cap,Trail Time,Date/Time
+1,1,NO CHOICE,3.46,2018-11-07 15:12
+>>>>>>> a8c72a66ac2867ef5985b894529a83200c0b0322
