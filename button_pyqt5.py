@@ -12,7 +12,7 @@ class App(QWidget):
 
     def __init__(self):
         super().__init__()
-<<<<<<< HEAD:button_pyqt5.py
+        button_pyqt5.py
         self.title = 'Insect Tracker App'
         self.left = 250
         self.top = 150
@@ -46,12 +46,12 @@ class App(QWidget):
 
 
         self.show()
-=======
+
         self.ui = uic.loadUi('mainGUI.ui')
         self.ui.runTestButton.clicked.connect(self.runTest)
         self.ui.viewResultsButton.clicked.connect(self.viewResults)
         self.ui.show()
->>>>>>> a8c72a66ac2867ef5985b894529a83200c0b0322:button_pyqt5
+        button_pyqt5
 
     @pyqtSlot()
     def runTest(self):

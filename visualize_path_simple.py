@@ -4,26 +4,26 @@ import csv
 import matplotlib.patches as patches
 import sys
 
-<<<<<<< HEAD
+
 # main
 if(len(sys.argv) < 2):
 	print("Please specify file name")
 	exit()
 elif(len(sys.argv) < 3):
-	file_name= sys.argv[1] 
+	file_name= sys.argv[1]
 	plot_type= "latest"
 else:
-	file_name= sys.argv[1] 
-	plot_type= sys.argv[2] 
+	file_name= sys.argv[1]
+	plot_type= sys.argv[2]
 	if(len(sys.argv) < 4):
 		print("Please specify index of path to plot")
 		exit()
 	else:
-		index = int(sys.argv[3]) 
+		index = int(sys.argv[3])
 
 
-	
- 
+
+
 
 #fig2 = plt.figure(figsize=(7,7))
 fig2 = plt.figure(g)
@@ -41,7 +41,7 @@ if(plot_type=="latest"):
 	    data = last_row[ind][1:-1].split(",")
 	    df_x.append(float(data[0]))
 	    df_y.append(float(data[1]))
-	
+
 
 if(plot_type=="index"):
 	last_row = list(csv.reader(f))[index]
@@ -49,7 +49,7 @@ if(plot_type=="index"):
 	    data = last_row[ind][1:-1].split(",")
 	    df_x.append(float(data[0]))
 	    df_y.append(float(data[1]))
-	
+
 
 if(plot_type=="all"):
 	last_row = list(csv.reader(f))[index]
@@ -64,11 +64,11 @@ ax2.add_patch(
         (0, 0),
         arena_size[0],
         arena_size[0],
-        fill=False     
-     ) ) 
+        fill=False
+     ) )
 
-plt.xlim(-10, arena_size[0]+10)  
-plt.ylim(-10, arena_size[0]+10) 
+plt.xlim(-10, arena_size[0]+10)
+plt.ylim(-10, arena_size[0]+10)
 #plt.figure(figsize=(10,10))
 
 t=np.linspace(0,len(df_x),len(df_x))
@@ -76,7 +76,6 @@ plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("viridis"))
 plt.plot(df_x, df_y)
 plt.colorbar()
 plt.show()
-=======
 
 def visualize(file_name, plot_type, index):
 	print(plot_type)
@@ -187,4 +186,3 @@ def visualize(file_name, plot_type, index):
 # 		index = int(sys.argv[3])
 
 #visualize(file_name, plot_type, index)
->>>>>>> a8c72a66ac2867ef5985b894529a83200c0b0322
