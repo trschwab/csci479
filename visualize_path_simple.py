@@ -52,42 +52,30 @@ def visualize(file_name, plot_type, index):
 
 
 	if(plot_type=="index"):
-		'''#change it so index is not in the first spot of location list
-		#don't touch index, index is what we want
-		#print(list(csv.reader(f)))
-		#print(list(csv.reader(f)))
-		#remove ending no line character
-		#find element in list that equals index
-		#grab the next element after
+
 		with open(file_name, newline='') as csvfile:
-			loc_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+			loc_reader = csv.reader(csvfile)
 			for row in loc_reader:
 				if row != []:
-					print(row[0])
-					print("end of row")	#this is printing what i want
+
 					if row[0] == str(index):
-						print("got to index")
-						print("REST: \n")
-						print(row.remove)
+						#print("got to index")
 
+						locs = list(row[1:])
+						spots = eval(locs[0])
 
-		loc_csv = list(csv.reader(opened_file)) 	#index
-		#print("HEEEEEEERE", loc_csv)
-		####list_key is the index of the csv list we want, loc_list is list of id's and location lists
-		####below: find index in list, the next element is the list
-		#list_key = loc_csv.index(index) + 1
-		#spots = loc_list[list_key]
-		'''
-		for ind in spots:
-			print(ind)
+		for index in spots:				#spots is a list of tuples, each tuple is (x,y) coridnate of bee
 
-			if(not (not last_row[ind])):
+			df_x.append(float(index[0]))	#df_x is list of x cordinates
+			df_y.append(float(index[1]))	#df_y is list of y cordinates
 
-
-			    data = last_row[ind][1:-1].split(",")
-			    df_x.append(float(data[0]))
-			    df_y.append(float(data[1]))
-				'''
+		t = np.linspace(0,len(df_x),len(df_x))
+		plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
+		plt.plot(df_x, df_y)
+		plt.colorbar()
+		plt.show()
+		
+	'''
 
 	#plt.figure(figsize=(10,10))
 	if(plot_type=="all"):
@@ -119,12 +107,13 @@ def visualize(file_name, plot_type, index):
 		#plt.colorbar()
 		plt.show()
 
-	'''else:
-		t=np.linspace(0,len(df_x),len(df_x))
-		plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
-		plt.plot(df_x, df_y)
-		plt.colorbar()
-		plt.show()'''
+		else:
+			t  =np.linspace(0,len(df_x),len(df_x))
+			plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
+			plt.plot(df_x, df_y)
+			plt.colorbar()
+			plt.show()
+			'''
 
 
 	def saveVisualization(file_name, plot_type, index):
