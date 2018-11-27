@@ -92,7 +92,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
         with open('results.csv','a') as fd:
             wr = csv.writer(fd, dialect='excel')
             #for i in outputList:
-                #wr.writerow(outputList) 
+                #wr.writerow(outputList)
 
             wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
         fd.close()
@@ -101,7 +101,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
         print("here")
         with open('results.csv','w') as fd:
             wr = csv.writer(fd, dialect='excel')
-<<<<<<< HEAD
+
             wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"])
             wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
         fd.close()
@@ -112,28 +112,25 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
 
             wr.writerow(locationList)             #whichBee, which Cap it picked, how long it took
         fd.close()
-=======
-            #for i in outputList:
-                #wr.writerow(outputList) 
 
-            wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"]) 
-            wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
+            #for i in outputList:
+                #wr.writerow(outputList)
+
+        wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"])
+        wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
         fd.close()
 
     with open('locations.csv','a') as fd:
         wr = csv.writer(fd, dialect='excel')
->>>>>>> dev
+
 
         #for i in locationList:
-            #wr.writerow(i) 
+            #wr.writerow(i)
 
         wr.writerow(locationList)   #first item is whichBee ran the test, rest of columns are location tuples
     fd.close()
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
 
 def runTest(whichBee = "testBee"):
 
@@ -239,7 +236,7 @@ def runTest(whichBee = "testBee"):
             distance_sol_b = np.sqrt((sol_b_x - rectagleCenterPont[0])**2 + (sol_b_y - rectagleCenterPont[1])**2)
 
 
-<<<<<<< HEAD
+
             if(distance_sol_a < cap_radius):     #if bee is on sol_a cap, end experiment
                 if(not timing_a):
                     print("near cap a")
@@ -286,7 +283,7 @@ def runTest(whichBee = "testBee"):
                     #end_experiment(outputList, locationList, whichBee, near_cap, startTime, endTime)
                     running = False
             #print("in main loop")
-=======
+
             if distance_sol_a < cap_radius:     #if bee is on sol_a cap, end experiment
                 endtime = time.time()
                 end_experiment(outputList, locationList, whichBee, "Purple", startTime, endtime)
@@ -299,7 +296,7 @@ def runTest(whichBee = "testBee"):
                 running = False
                 break
 
->>>>>>> dev
+
             #DRAW CIRCLES FOR WHERE THE SOLUTIONS ARE
             #cv2.circle(frame, (sol_a_x, sol_a_y), 1, (0, 0, 255), 30) #Solution A
             #cv2.circle(frame, (sol_b_x, sol_b_y), 1, (0, 255, 0), 30) #Solution B
@@ -311,12 +308,10 @@ def runTest(whichBee = "testBee"):
             #draw small circle where bee is
             cv2.circle(frame, rectagleCenterPont, 1, (0, 0, 255), 5)
 
-<<<<<<< HEAD
+
         if(not running):
             break
-=======
 
->>>>>>> dev
         #Press q to exit early.
         if cv2.waitKey(1) & 0xFF == ord('q'):
             endtime = time.time()
@@ -339,12 +334,12 @@ def runTest(whichBee = "testBee"):
 
     #Quit camera displays
     endtime = time.time()
-<<<<<<< HEAD
+
     #print("location List: ", locationList)
     end_experiment(outputList, locationList, whichBee, near_cap, startTime, endtime)
-=======
+
     end_experiment(outputList, locationList, whichBee, "NO RESULT - QUIT", startTime, endtime)
->>>>>>> dev
+
 
     camera.release()
     cv2.destroyAllWindows()
