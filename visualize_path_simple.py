@@ -42,14 +42,32 @@ def visualize(file_name, plot_type, index):
 	df_y = []
 
 	if(plot_type=="latest"):
-		last_row = list(csv.reader(opened_file))[-1]
-		print(last_row)
-		for ind in range(2,len(last_row)):
-			if(not (not last_row[ind])):
-			    data = last_row[ind][1:-1].split(",")
-			    df_x.append(float(data[0]))
-			    df_y.append(float(data[1]))
+		row_counter = -1		#initialize counter at -1 so row counter equals the number of indexs not len()
+		list_of_rows = []
+		with open(file_name, newline='') as csvfile:
+			loc_reader = csv.reader(csvfile)
+			for row in loc_reader:
+				if row != []:
+					row_counter += 1
+					list_of_rows += [row]
 
+			#print("num rows = ", row_counter)
+			#print(list_of_rows[row_counter])
+
+			locs = list_of_rows[-1]
+			spots = eval(locs[-1])
+			#print(spots)	#this is the key of the last list at the moment
+
+			for index in spots:				#spots is a list of tuples, each tuple is (x,y) coridnate of bee
+
+				df_x.append(float(index[0]))	#df_x is list of x cordinates
+				df_y.append(float(index[1]))	#df_y is list of y cordinates
+
+			t = np.linspace(0,len(df_x),len(df_x))
+			plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
+			plt.plot(df_x, df_y)
+			plt.colorbar()
+			plt.show()
 
 	if(plot_type=="index"):
 
