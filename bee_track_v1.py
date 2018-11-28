@@ -141,7 +141,8 @@ def runTest(whichBee = "testBee"):
     endResult = "NO CHOICE"
     outputList = []
     locationList = []
-
+    timing_a = False
+    timing_b = False
     caps = [] #structure that will hold cap positions
 
     camera = cv2.VideoCapture(video_path)
