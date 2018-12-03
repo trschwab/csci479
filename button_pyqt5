@@ -15,6 +15,8 @@ class App(QWidget):
         self.ui = uic.loadUi('mainGUI.ui')
         self.ui.runTestButton.clicked.connect(self.runTest)
         self.ui.viewResultsButton.clicked.connect(self.viewResults)
+        self.ui.optionsButton.clicked.connect(self.optionDialog)
+        self.ui.setWindowTitle('Bee Tracker')
         self.ui.show()
 
     @pyqtSlot()
@@ -33,6 +35,10 @@ class App(QWidget):
         if okPressed:
             return i
 
+    def optionDialog(self):
+      self.window = OptionWindow(self)
+      self.ui.close()
+
 #Secondary Window is the window shown when the user presses "view Results" on the main page
 class SecondaryWindow(QWidget):
     def __init__(self, parent=None):
@@ -41,7 +47,9 @@ class SecondaryWindow(QWidget):
       self.ui.testIDLineEdit.setValidator(QIntValidator())
       self.ui.runVisualizationButton.clicked.connect(self.openVisualzation)
       self.ui.plotTypeCombo.currentIndexChanged.connect(self.selectionChanged)
+      self.ui.backVisButton.clicked.connect(self.back)
       #self.ui.exportPathButton.clicked.connect(self.saveFile)
+      self.ui.setWindowTitle('Bee Tracker')
       self.ui.show()
 
     def selectionChanged(self):
@@ -71,6 +79,26 @@ class SecondaryWindow(QWidget):
           plt = saveVisualization("locations.csv", self.ui.plotTypeCombo.currentText(), self.ui.testIDLineEdit.text())
         else:
           plt = saveVisualization("locations.csv", self.ui.plotTypeCombo.currentText(), 0)
+
+    def back(self):
+      self.window = App()
+      self.ui.close()
+
+
+class OptionWindow(QWidget):
+  def __init__(self, parent=None):
+    super().__init__()
+    self.ui = uic.loadUi('optionsGUI.ui')
+    self.ui.maxExpTimeLabel.setText('Stuff')
+    self.ui.backOptButton.clicked.connect(self.back)
+    self.ui.setWindowTitle('Bee Tracker')
+    self.ui.show()
+
+  def back(self):
+    self.window = App()
+    self.ui.close()
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

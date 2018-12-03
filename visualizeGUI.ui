@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>143</height>
+    <height>150</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,29 +18,36 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>183</width>
-     <height>111</height>
+     <width>221</width>
+     <height>128</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
+     <widget class="QLabel" name="enterTestDataLabel">
+      <property name="text">
+       <string>Enter Test Data </string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
      <widget class="QLabel" name="testIDLabel">
       <property name="text">
        <string>Enter Test ID: </string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="testIDLineEdit"/>
+    </item>
+    <item row="3" column="0">
      <widget class="QLabel" name="plotTypeLabel">
       <property name="text">
        <string>Choose Plot Type: </string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="testIDLineEdit"/>
-    </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <widget class="QComboBox" name="plotTypeCombo">
       <item>
        <property name="text">
@@ -59,7 +66,7 @@
       </item>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QPushButton" name="runVisualizationButton">
       <property name="minimumSize">
        <size>
@@ -78,7 +85,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="4" column="1">
      <widget class="QPushButton" name="exportPathButton">
       <property name="maximumSize">
        <size>
@@ -91,103 +98,20 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="enterTestDataLabel">
-      <property name="text">
-       <string>Enter Test Data </string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="formLayoutWidget_2">
+  <widget class="QPushButton" name="backVisButton">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>10</y>
-     <width>181</width>
-     <height>111</height>
+     <x>320</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout_2">
-    <item row="0" column="0">
-     <widget class="QLabel" name="testResultsLabel">
-      <property name="text">
-       <string>Test Results</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="experimentIDLabel">
-      <property name="text">
-       <string>Experiment ID:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="beeIDLabel">
-      <property name="text">
-       <string>Bee ID:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="beeChoiceLabel">
-      <property name="text">
-       <string>Bee Choice:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="timeElapsedLabel">
-      <property name="text">
-       <string>Time Elapsed:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="dateLabel">
-      <property name="text">
-       <string>Date of Exp:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="experimentIDRESULTSLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLabel" name="beeIDRESULTSLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLabel" name="beeChoiceRESULTSLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="timeElapsedRESEULTSLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="dateRESULTSLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="text">
+    <string>Back</string>
+   </property>
   </widget>
  </widget>
  <resources/>

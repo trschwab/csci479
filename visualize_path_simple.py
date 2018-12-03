@@ -93,45 +93,48 @@ def visualize(file_name, plot_type, index):
 		plt.colorbar()
 		plt.show()
 
-	'''
+
 
 	#plt.figure(figsize=(10,10))
 	if(plot_type=="all"):
+		print("were in all")
+		with open(file_name, newline='') as csvfile:
+			loc_reader = csv.reader(csvfile)
+			for row in loc_reader:
+				if row != []:
 
-		#index is the id number
-		for row in list(csv.reader(f)):
-			df_x = []
-			df_y = []
-			#print(len(row))
-			#print(row)
-			for ind in range(1,len(row)):
-			    #print(ind)
-			    if(not (not row[ind])):
+					locs = list(row[1:])
+					spots = eval(locs[0])
+				plot_num = 321
+				for index in spots:				#spots is a list of tuples, each tuple is (x,y) coridnate of bee
 
-				    data = row[ind][1:-1].split(",")
-				    #print(data)
-				    #print(str(data))
-				    #print(str(data).is_empty())
-				    df_x.append(float(data[0]))
-				    df_y.append(float(data[1]))
+					df_x.append(float(index[0]))	#df_x is list of x cordinates
+					df_y.append(float(index[1]))	#df_y is list of y cordinates
 
-			plt.scatter(df_x, df_y, alpha=0.2)
-			plt.plot(df_x, df_y, alpha=0.2)
+				t = np.linspace(0,len(df_x),len(df_x))
+				plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
+				print(plot_num)
+				plt.subplot(plot_num)
+				plot_num += 1
+				if plot_num == 327:
+					plot_num = 421
+				elif plot_num == 427:
+					print("Too many graphs to display")
+					break
+				plt.plot(df_x, df_y)
+				df_x = []
+				df_y = []
+			plt.colorbar()
+			plt.show()
 
-			#t=np.linspace(0,len(df_x),len(df_x))
-			#plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("viridis"))
 
-			#plt.plot(df_x, df_y)
-		#plt.colorbar()
-		plt.show()
-
-		else:
+	'''else:
 			t  =np.linspace(0,len(df_x),len(df_x))
 			plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
 			plt.plot(df_x, df_y)
 			plt.colorbar()
 			plt.show()
-			'''
+	'''
 
 
 	def saveVisualization(file_name, plot_type, index):
@@ -175,31 +178,26 @@ def visualize(file_name, plot_type, index):
 
 		#plt.figure(figsize=(10,10))
 		if(plot_type=="all"):
-			#print(len(list(csv.reader(f))))
-			for row in list(csv.reader(f)):
-				df_x = []
-				df_y = []
-				#print(len(row))
-				#print(row)
-				for ind in range(1,len(row)):
-				    #print(ind)
-				    if(not (not row[ind])):
+			print("were in it")
+			with open(file_name, newline='') as csvfile:
+				loc_reader = csv.reader(csvfile)
+				for row in loc_reader:
+					if row != []:
 
-					    data = row[ind][1:-1].split(",")
-					    #print(data)
-					    #print(str(data))
-					    #print(str(data).is_empty())
-					    df_x.append(float(data[0]))
-					    df_y.append(float(data[1]))
+						locs = list(row[1:])
+						spots = eval(locs[0])
 
-				plt.scatter(df_x, df_y, alpha=0.2)
-				plt.plot(df_x, df_y, alpha=0.2)
+					for index in spots:				#spots is a list of tuples, each tuple is (x,y) coridnate of bee
 
-				#t=np.linspace(0,len(df_x),len(df_x))
-				#plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("viridis"))
+						df_x.append(float(index[0]))	#df_x is list of x cordinates
+						df_y.append(float(index[1]))	#df_y is list of y cordinates
 
-				#plt.plot(df_x, df_y)
-			#plt.colorbar()
+					t = np.linspace(0,len(df_x),len(df_x))
+					plt.scatter(df_x, df_y, c=t,cmap=plt.get_cmap("cool"), alpha=0.8)
+					plt.plot(df_x, df_y)
+					plt.colorbar()
+					plt.show()
+
 			return plt
 
 		else:
