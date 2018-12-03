@@ -26,21 +26,21 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Bee Tracker software</string>
+       <string>AITA</string>
       </property>
      </widget>
     </item>
     <item row="2" column="0" colspan="2">
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Version: 0.1 (Alpha)</string>
+       <string>Version: 2.1 (Beta)</string>
       </property>
      </widget>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Developed By Bucknell Students</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dev Team:&lt;/p&gt;&lt;p&gt;Andrew Verrilli&lt;/p&gt;&lt;p&gt;Troy Schwab&lt;/p&gt;&lt;p&gt;Matt Harmon&lt;/p&gt;&lt;p&gt;Rafael Orozco&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </item>
@@ -112,7 +112,7 @@
     <item row="4" column="0" colspan="2">
      <widget class="QPushButton" name="optionsButton">
       <property name="text">
-       <string>Test Options</string>
+       <string>3D Visual From Video</string>
       </property>
      </widget>
     </item>

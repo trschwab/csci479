@@ -5,6 +5,8 @@ from PyQt5.QtCore import *
 from PyQt5 import uic
 import bee_track_v1
 from visualize_path_simple import *
+import ThreeD
+import viz_3d_v2
 
 class App(QWidget):
 
@@ -16,7 +18,7 @@ class App(QWidget):
         self.ui.runTestButton.clicked.connect(self.runTest)
         self.ui.viewResultsButton.clicked.connect(self.viewResults)
         self.ui.optionsButton.clicked.connect(self.optionDialog)
-        self.ui.setWindowTitle('Bee Tracker')
+        self.ui.setWindowTitle('AITA')
         self.ui.show()
 
     @pyqtSlot()
@@ -30,14 +32,15 @@ class App(QWidget):
         self.ui.close()
 
 
-    def getInteger(self):
-        i, okPressed = QInputDialog.getInt(self, "Trial ID","Enter Trial ID:", 28, 0, 100, 1)
+    def getInteger(self):   #change to take string self, "Get text","Your name:", QLineEdit.Normal, ""
+        i, okPressed = QInputDialog.getText(self, "Trial ID","Enter Trial ID:", QLineEdit.Normal, "")
         if okPressed:
             return i
 
     def optionDialog(self):
-      self.window = OptionWindow(self)
-      self.ui.close()
+      ThreeD.experiment_3d()
+
+      viz_3d_v2.call_it()
 
 #Secondary Window is the window shown when the user presses "view Results" on the main page
 class SecondaryWindow(QWidget):
@@ -48,8 +51,8 @@ class SecondaryWindow(QWidget):
       self.ui.runVisualizationButton.clicked.connect(self.openVisualzation)
       self.ui.plotTypeCombo.currentIndexChanged.connect(self.selectionChanged)
       self.ui.backVisButton.clicked.connect(self.back)
-      #self.ui.exportPathButton.clicked.connect(self.saveFile)
-      self.ui.setWindowTitle('Bee Tracker')
+      self.ui.exportPathButton.clicked.connect(self.saveFile)
+      self.ui.setWindowTitle('AITA')
       self.ui.show()
 
     def selectionChanged(self):
@@ -89,9 +92,9 @@ class OptionWindow(QWidget):
   def __init__(self, parent=None):
     super().__init__()
     self.ui = uic.loadUi('optionsGUI.ui')
-    self.ui.maxExpTimeLabel.setText('Stuff')
+    self.ui.maxExpTimeLabel.setText('Maximum time')
     self.ui.backOptButton.clicked.connect(self.back)
-    self.ui.setWindowTitle('Bee Tracker')
+    self.ui.setWindowTitle('AITA')
     self.ui.show()
 
   def back(self):

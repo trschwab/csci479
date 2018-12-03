@@ -25,10 +25,10 @@ video_path = os.path.join(my_dir, my_file)      #gets path of video to import
 EXPERIMENT_ID = 1
 NEAR_CAP_TIME = 2
 
-#This function only needs to be run once on the first frame. 
+#This function only needs to be run once on the first frame.
 def detect_caps(frame):
-    #input a frame and output the positions of two caps. 
-    
+    #input a frame and output the positions of two caps.
+
     #detect yellow cap
     circle_frame_a = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -51,7 +51,7 @@ def detect_caps(frame):
     #circle_frame_b = cv2.morphologyEx(circle_frame_b, cv2.MORPH_OPEN,kernel)
     #circle_frame_b = cv2.morphologyEx(circle_frame_b, cv2.MORPH_OPEN,kernel)
     circles_b = cv2.HoughCircles(circle_frame_b, cv2.HOUGH_GRADIENT, 22, minDist=1, maxRadius=50)
-    
+
 
     #np.concatenate((a, b))
     #for c in circles_b:
@@ -77,12 +77,12 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
     totalTime = endTime - startTime
     outputList += [("%.2f" % totalTime)]
 
-    
+
     now = datetime.datetime.now()
     outputList += [now.strftime("%Y-%m-%d %H:%M")]
 
     #cleanup the camera and close any open windows, safeGuard to keep us from adding things to our list after we want to be done with experiment
- 
+
     #print((outputList, locationList))   #prints as of now to help us see whats up, NEEDS TO BE RETURN
     #print(len(locationList)/endtime)
 
@@ -96,7 +96,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
         #print("here")
         with open('results.csv','w') as fd:
             wr = csv.writer(fd, dialect='excel')
-            wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"]) 
+            wr.writerow(["Experiment ID","Bee ID","Cap","Trail Time","Date/Time"])
             wr.writerow(outputList)             #whichBee, which Cap it picked, how long it took
         fd.close()
 
@@ -113,7 +113,7 @@ def end_experiment(outputList, locationList, whichBee, endResult,  startTime, en
             wr.writerow(locationList)             #whichBee, which Cap it picked, how long it took
         fd.close()
 
-   
+
 
 def runTest(whichBee = "testBee"):
 
@@ -125,11 +125,11 @@ def runTest(whichBee = "testBee"):
     endResult = "NO CHOICE"
     near_cap = "NO CHOICE"
     outputList = []
-    locationList = [whichBee]
+    locationList = [whichBee, []]
 
     caps = [] #structure that will hold cap positions
 
-    camera = cv2.VideoCapture(video_path)    
+    camera = cv2.VideoCapture(video_path)
     #camera = cv2.VideoCapture(1) #this is webcam
     width = camera.get(cv2.CAP_PROP_FRAME_WIDTH)
     print(width)
@@ -225,7 +225,7 @@ def runTest(whichBee = "testBee"):
             #center of rectangle/BEE. Rectangle
             rectagleCenterPont = ((x + x + w) // 2, (y + y + h) // 2)
             #rectagleCenterPont = (int(mouse.position()[0]),int(mouse.position()[1]))
-            locationList += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
+            locationList[1] += [((x + x + w) / 2.0, (y + y + h) / 2.0)]
             #locationList += [(mouse.position())]
             #print(locationList)
             #calculate distance from bee to
@@ -269,7 +269,7 @@ def runTest(whichBee = "testBee"):
                     near_cap = "none"
 
             if(timing_a or timing_b):
-                near_cap_time = time.time() - start_cap_time 
+                near_cap_time = time.time() - start_cap_time
                 print(near_cap_time)
                 if(near_cap_time > NEAR_CAP_TIME):
                     #print("wow")
@@ -291,7 +291,7 @@ def runTest(whichBee = "testBee"):
             cv2.circle(frame, rectagleCenterPont, 1, (0, 0, 255), 5)
 
         if(not running):
-            break          
+            break
         #Press q to exit early.
         if cv2.waitKey(1) & 0xFF == ord('q'):
             endtime = time.time()
@@ -320,6 +320,6 @@ def runTest(whichBee = "testBee"):
 
 if __name__ == '__main__':
     import sys
-    
+
     EXPERIMENT_ID = 1
     runTest()
